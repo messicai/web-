@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超的网抑云</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="app">
+        <img :src="musicCover" alt="" class="bg">
+        <div class="box">
+            <div class="search-bar">
+                <img src="img/logo.png" alt="" class="logo">
+                <input type="text" name="" id="searchText" v-model="query" @keyup.enter="searchMusic">
+                <a href="javascript:;" class="search-btn" @click="searchMusic"></a>
+            </div>
+            <div class="center-con">
+                <div class="songs-list">
+                    <ul class="songUl">
+                        <li v-for="(item, index) in musicList" :key="index">
+                            <a class="play-icon" href="javascript:;" @click="playMusic(item.id)"></a>
+                            <b>{{item.name}}</b>
+                            <span class="mv-icon" v-show="item.mvid!=0" @click="playMv(item.mvid)"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="player-con">
+                    <div class="dist" :class="isPlaying ? 'distStart' : 'distOver'" @click="controlMusic">
+                        <img src="img/dist.png" alt="">
+                        <div class="songImg">
+                            <img :src="musicCover" alt="">
+                        </div>
+                    </div>
+                    <div class="playDist" :class="isPlaying? 'barStart' : 'barOver'" @click="controlMusic">
+                        <img src="img/playdist.png" alt="">
+                    </div>
+                </div>
+                <div class="comment-con">
+                    <h4 class="title">热门留言</h4>
+                    <ul class="commentUl">
+                        <li v-for="(item, index) in userList" :key="index">
+                            <a href="javascript:;" class="userHead">
+                                <img :src="item.user.avatarUrl" alt="">
+                            </a>
+                            <b>{{item.user.nickname}}</b>
+                            <p class="userComment">
+                                {{item.content}}
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="audio-con">
+                <audio :src="musicUrl" ref="audio" controls autoplay loop class="myaudio" @play='play' @pause='pause'></audio>
+            </div>
+            <div class="video-con" v-if="mvJudge" @mouseover="mvIn" @mouseout="mvOut">
+                <video controls="controls" :src="mvUrl" @play="mvPlay" @pause="mvPause" ref="video"></video>
+                <span class="closeMv" @click="closeMv">X</span>
+                <img @click="click_mv_btn" :src="mvStatus?'img/mvpause.png':'img/mvplay.png'" alt="" id="mvStatus" v-show="mv_btn">
+            </div>
+        </div>
+        <div class="mask" v-if="mvJudge"></div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="index.js"></script>
+    </div>
+</body>
+
+</html>
